@@ -1,0 +1,1 @@
+web: gunicorn ky_auth.wsgi --log-file -
