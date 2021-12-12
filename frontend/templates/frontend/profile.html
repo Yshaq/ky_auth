@@ -1,0 +1,52 @@
+{% extends 'frontend/base.html' %}
+{% block content %}
+
+<style>
+    .profile {
+        margin: 20px auto;
+        border: solid black 2px;
+        width: 50%;
+    }
+</style>
+
+<div id="profile" class="profile container p-4">
+    <p id="name">NOT LOGGED IN</p>
+    <p id="username"></p>
+    <p id="email"></p>        
+    <button type="button" id="logout-button" class="btn btn-danger">Logout</button>
+</div>
+
+
+
+<script>
+    access = localStorage.getItem("access");
+    axios({
+        method: 'get',
+        url: '{% url "api-profile" %}',
+        headers: {
+            'Authorization': `Bearer ${access}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        console.log(res);
+        document.getElementById("name").innerHTML = `Welcome ${res.data.name}!`;
+        document.getElementById("username").innerHTML = `Username: ${res.data.username} `;
+        document.getElementById("email").innerHTML = `Email: ${res.data.email}`;
+
+    })
+    .catch(err => {
+        console.log(err.response);
+        alert(err.response.data.detail);
+    });
+
+    function logout() {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        window.location = "{% url 'login' %}";
+    }
+
+    document.getElementById("logout-button").addEventListener("click", logout);
+</script>
+
+{% endblock %}

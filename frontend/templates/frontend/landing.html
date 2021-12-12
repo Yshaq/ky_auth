@@ -1,0 +1,29 @@
+{% extends 'frontend/base.html' %}
+{% block content %}
+
+<div class="container p-5">
+    <div class="row">
+            <div class="col-1"></div>
+            <a href="{% url 'login' %}" class="btn btn-primary col-4">Login</a>
+            <div class="col-2"></div>
+            <a href="{% url 'register'%}" class="btn btn-secondary col-4">Register</a>
+            <div class="col-1"></div>
+
+    </div>
+</div>
+
+<script>
+    access = localStorage.getItem("access");
+    refresh = localStorage.getItem("refresh");
+    if(access || refresh) {
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+        alert("current user logged out!");
+    }
+
+</script>
+
+
+
+
+{% endblock %}
